@@ -51,7 +51,8 @@ while($row = @mysql_fetch_assoc($result)){
 if(isset($_GET['from']) && preg_match("/^[0-9\ ]+$/", $_GET['from'])){
 	$inputfrom=$_GET['from'];
 	$filterfrom=$inputfrom;
-	$f=split(" ",$inputfrom);
+	#$f=split(" ",$inputfrom);
+	$f=explode(" ",$inputfrom);
 	$sqlfrom=mktime(substr($f[0], 0, 2), substr($f[0], 2, 4), 0,substr($f[1], 2, 2),substr($f[1], 0, 2),substr($f[1], 4, 2));
 	$where.="AND alert.timestamp>=".$sqlfrom." ";
 }else{
@@ -65,7 +66,8 @@ if(isset($_GET['from']) && preg_match("/^[0-9\ ]+$/", $_GET['from'])){
 if(isset($_GET['to']) && preg_match("/^[0-9\ ]+$/", $_GET['to'])){
 	$inputto=$_GET['to'];
 	$filterto=$inputto;
-	$t=split(" ",$inputto);
+	#$t=split(" ",$inputto);
+	$t=explode(" ",$inputto);
 	$sqlto=mktime(substr($t[0], 0, 2), substr($t[0], 2, 4), 0,substr($t[1], 2, 2),substr($t[1], 0, 2),substr($t[1], 4, 2));
 	$lastgraphplot=$sqlto;
 	$where.="AND alert.timestamp<=".$sqlto." ";
@@ -297,7 +299,6 @@ include "page_refresh.php";
 
 	function databasetest(){
 		<!--  If no data, alerts will be created in here  -->
-		<?php #includeme('./databasetest.php') ?>
 		<?php include './databasetest.php' ?>
 
 	}
@@ -305,7 +306,6 @@ include "page_refresh.php";
 	var chart;
 
 
-	<?php #includeme('./php/detail_graph.php'); ?>
 	<?php include './php/detail_graph.php'; ?>
 
 	AmCharts.ready(function () {
@@ -574,6 +574,9 @@ include "page_refresh.php";
 			|| preg_match("/\w+\.\w+\.\w+/", $phrase2) # match... file paths?
 			|| preg_match("/^[A-Z_]+\/[0-9]+$/", $phrase2) # match HTTP return codes and proxy cache peer
 			){
+				if ( ! isset ($datasummary[$phrase2]) ) {
+					$datasummary[$phrase2] = 1 ;
+				}
 				$datasummary[$phrase2]++;
 			}	
 		}
