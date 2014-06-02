@@ -46,7 +46,8 @@ if($glb_debug==1){
 	
 	}
 	
-	$mainstring2=eregi_replace(',$', '', $mainstring2); 
+	#$mainstring2=eregi_replace(',$', '', $mainstring2); 
+	$mainstring2=preg_replace('/,$/', '', $mainstring2); 
 	$mainstring2.="
 		];";
 	
