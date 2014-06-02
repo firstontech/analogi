@@ -19,7 +19,7 @@ require './top.php';
 </head>
 <body>
 
-<?php includeme("./header.php"); ?>
+<?php include("./header.php"); ?>
 
 		
 <div class='clr'></div>	
