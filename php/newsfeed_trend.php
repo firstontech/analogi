@@ -50,6 +50,8 @@ if($glb_debug==1){
 }else{
 	$result=mysql_query($query, $db_ossec);
 
+	$finaltrendinfo=array();
+
 	while($row = @mysql_fetch_assoc($result)){
 		$trendarray[$row['res_loc']][$row['res_field']][$row['res_time']]=$row['res_cnt'];
 	}
@@ -106,6 +108,8 @@ if($glb_debug==1){
 	
 		}
 	}
+
+#echo "$finaltrendinfo";
 	
 	arsort($finaltrendinfo);
 	
