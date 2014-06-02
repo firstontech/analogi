@@ -312,12 +312,12 @@ include "page_refresh.php";
 
 <div class="top10header">Contents</div>
 <div style="padding:10px;">
-	<div class="contents"><a href='./management.php#intro'>Intro</a></div>
-	<div class="contents"><a href='./management.php#agents'>Last Agent Alert</a></div>
-	<div class="contents"><a href='./management.php#ruletweaking'>Rule Tweaking</a></div>
-	<div class="contents"><a href='./management.php#databasesummary'>Database Size Summary</a></div>
-	<div class="contents"><a href='./management.php#databasecleanup'>Database cleanup</a></div>
-	<div class="contents"><a href='./management.php#removelocation'>Remove Location (OSSEC client)</a></div>
+	<div class="contents"><a href='./management.php?#intro'>Intro</a></div>
+	<div class="contents"><a href='./management.php?#agents'>Last Agent Alert</a></div>
+	<div class="contents"><a href='./management.php?#ruletweaking'>Rule Tweaking</a></div>
+	<div class="contents"><a href='./management.php?#databasesummary'>Database Size Summary</a></div>
+	<div class="contents"><a href='./management.php?#databasecleanup'>Database cleanup</a></div>
+	<div class="contents"><a href='./management.php?#removelocation'>Remove Location (OSSEC client)</a></div>
 </div>
 
 <a name="intro"></a> 
