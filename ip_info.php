@@ -31,10 +31,19 @@ if($jsonlng==""){
 # Get AS and CIDR
 $url="http://www.dshield.org/api/ip/".$ip;
 $content=get_content($url);
+
+
+$ip_isp = "Unknown";
+$ip_range = "Unknown";
+$ip_attacks = "Unknown";
+
+if ( ! preg_match  ( '/ccedil/' , $content) ) {
 $xml = simplexml_load_string($content); 
+
 $ip_isp = $xml->asname;
 $ip_range = $xml->network;
 $ip_attacks = $xml->attacks;
+}
 
 
 #First Instance
