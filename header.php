@@ -36,10 +36,18 @@
 	<a class='tiny tinyblack' href='./massmonitoring.php?'>Mass Monitoring</a>
 	<a class='tiny tinyblack' href='./detail.php?from=<?php echo date("Hi dmy", (time()-(3600*24*30))) ?>'>Detail</a>
 	<a class='tiny tinyblack' href='./ip_info.php?'>IP Info</a>
-	<a class='tiny tinyblack' onclick='alert("Warning : Due to the complexity of the code, this page may take a few minute to load."); window.location="./management.php"' href='#' >Management</a>
-	<a class='tiny tinyblack' href='./about.php'>About</a>
+
+	<a class='tiny tinyblack' onclick='alert("Warning : Due to the complexity of the code, this page may take a few minute to load."); window.location="./management.php?"' href='#' >Management</a>
+
+	<a class='tiny tinyblack' href='./about.php?'>About</a>
 	<br>
-	<?php
-	echo $wallboard_url;
-	?>
+
+        <?php
+        #echo $wallboard_url;
+        ?>
+
 </div>
+
+
+
+
