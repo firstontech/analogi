@@ -97,8 +97,12 @@ include "page_refresh.php";
 ?>
 
 <link href="./style.css" rel="stylesheet" type="text/css" />
-<script src="./amcharts/amcharts.js" type="text/javascript"></script>
-
+<script src="./scripts/amcharts/amcharts.js" type="text/javascript"></script>
+<script src="./scripts/amcharts/serial.js" type="text/javascript"></script>
+<script src="./scripts/amcharts/exporting/amexport.js" type="text/javascript"></script>
+<script src="./scripts/amcharts/exporting/rgbcolor.js" type="text/javascript"></script>
+<script src="./scripts/amcharts/exporting/canvg.js" type="text/javascript"></script>
+<script src="./scripts/amcharts/exporting/filesaver.js" type="text/javascript"></script>
 <script type="text/javascript">
 
 	function databasetest(){
@@ -121,14 +125,57 @@ include "page_refresh.php";
 		chart = new AmCharts.AmSerialChart();
 		chart.dataProvider = chartData;
 		chart.categoryField = "date";
-		chart.startDuration = 0.5;
+		chart.startDuration = 0.2;
 		chart.balloon.color = "#000000";
 		chart.zoomOutOnDataUpdate=true;
-		chart.pathToImages = "./images/";
+		chart.pathToImages = "./scripts/amcharts/images/";
 		chart.zoomOutButton = {
 			backgroundColor: '#000000',
 			backgroundAlpha: 0.15
 		};
+
+		// Add export chart as an image
+		chart.exportConfig = {
+		    menuTop: '30px',
+		    menuLeft: 'auto',
+		    menuRight: '20px',
+		    menuBottom: 'auto',
+		    menuItems: [{
+			textAlign: 'center',
+			onclick: function () {},
+			icon: './scripts/amcharts/images/export.png',
+			iconTitle: 'Save chart as an image',
+			items: [{
+			    title: 'JPG',
+			    format: 'jpg'
+			}, {
+			    title: 'PNG',
+			    format: 'png'
+			}, {
+			    title: 'SVG',
+			    format: 'svg'
+			}]
+		    }],
+		    menuItemOutput:{
+			fileName:"index-graph"
+		    },
+		    menuItemStyle: {
+			backgroundColor: 'transparent',
+			rollOverBackgroundColor: '#EFEFEF',
+			color: '#000000',
+			rollOverColor: '#CC0000',
+			paddingTop: '6px',
+			paddingRight: '6px',
+			paddingBottom: '6px',
+			paddingLeft: '6px',
+			marginTop: '0px',
+			marginRight: '0px',
+			marginBottom: '0px',
+			marginLeft: '0px',
+			textAlign: 'left',
+			textDecoration: 'none'
+		    }
+		}
 
 		// listen for "dataUpdated" event (fired when chart is rendered) and call zoomChart method when it happens
 		chart.addListener("dataUpdated", zoomChart);
@@ -164,7 +211,7 @@ include "page_refresh.php";
 		// SCROLLBAR
 		var chartScrollbar = new AmCharts.ChartScrollbar();
 		chartScrollbar.graph = graph0;
-		chartScrollbar.scrollbarHeight = 40;
+		//chartScrollbar.scrollbarHeight = 40;
 		chartScrollbar.color = "#000000";
 		chartScrollbar.gridColor = "#000000";
 		chartScrollbar.backgroundColor = "#FFFFFF";

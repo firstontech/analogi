@@ -162,7 +162,8 @@ include "page_refresh.php";
 ?>
 
 <link href="./style.css" rel="stylesheet" type="text/css" />
-<script src="./amcharts/amcharts.js" type="text/javascript"></script>
+<script src="./scripts/amcharts/amcharts.js" type="text/javascript"></script>
+<script src="./scripts/amcharts/serial.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 
@@ -202,7 +203,7 @@ include "page_refresh.php";
 		chart.categoryField = "source";
 		chart.plotAreaBorderAlpha = 0.2;
 		chart.rotate = true;
-		
+
 		// AXES
 		// Category
 		var categoryAxis = chart.categoryAxis;
@@ -239,6 +240,7 @@ include "page_refresh.php";
 		chart_timemanagement = new AmCharts.AmSerialChart();
 		chart_timemanagement.dataProvider = chartData_timemanagement;
 		chart_timemanagement.categoryField = "date";
+		chart_timemanagement.pathToImages = "./scripts/amcharts/images/";
 
 		// AXES
 		// category
