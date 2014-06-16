@@ -45,7 +45,7 @@ $query="SELECT
 
 
 if($glb_debug==1){
-	echo "<div style='font-size:24px; color:red;font-family: Helvetica,Arial,sans-serif;'>Debug2</div>"; 
+	echo "<div style='font-size:24px; color:red;font-family: Helvetica,Arial,sans-serif;'>Debug</div>"; 
 	echo $query;
 }else{
 	$result=mysql_query($query, $db_ossec);
