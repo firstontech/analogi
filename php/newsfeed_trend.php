@@ -45,7 +45,7 @@ $query="SELECT
 
 
 if($glb_debug==1){
-	echo "<div style='font-size:24px; color:red;font-family: Helvetica,Arial,sans-serif;'>Debug</div>"; 
+	echo "<div style='font-size:24px; color:red;font-family: Helvetica,Arial,sans-serif;'>Debug2</div>"; 
 	echo $query;
 }else{
 	$result=mysql_query($query, $db_ossec);
@@ -53,6 +53,7 @@ if($glb_debug==1){
 	while($row = @mysql_fetch_assoc($result)){
 		$trendarray[$row['res_loc']][$row['res_field']][$row['res_time']]=$row['res_cnt'];
 	}
+#	echo "<div style='font-size:24px; color:red;font-family: Helvetica,Arial,sans-serif;'>".print_r($trendarray)."</div>"; 
 
 	# This will loop through the results above, remove the highest and lowest results for each server/rule/timeperiod to find a nicer average, then compare the current figure to that. This should show if the current alerts/timeperiod is higher than average.
 	
@@ -106,33 +107,40 @@ if($glb_debug==1){
 	
 		}
 	}
-	
-	arsort($finaltrendinfo);
-	
-	echo "<div class='clr' style='padding-bottom:0px'></div>";
-	
-	echo "<table>";
-	echo "<tr><th>Percent</th><th>Count</th><th>Host</th><th>Rule</th><th>Level</th></tr>";
-	
-	foreach($finaltrendinfo as $one=>$two){
-		$details=preg_split("/\|\|/", $one);
-	
-		$query="SELECT description as descr, level as lvl
-			FROM signature
-			WHERE signature.rule_id=".$details[1];
-		$result=mysql_query($query, $db_ossec);
-		$row = @mysql_fetch_assoc($result);
-	
-		echo "<tr>
-			<td><a href='./detail.php?rule_id=".$details[1]."&from=".date("Hi dmy", time()-(86400*30))."&source=".$details[0]."'>".number_format($two)."%</a></td>
-			<td>".$details[2]."</td>
-			<td>".$details[0]."</td>
-			<td>".$row['descr']."</a></td>
-			<td>".$row['lvl']."</td>
-			</tr>";
+	if( isset($finaltrendinfo) ){
+		arsort($finaltrendinfo);
+		echo "<div class='clr' style='padding-bottom:0px'></div>";
+		
+		echo "<table>";
+		echo "<tr><th>Percent</th><th>Count</th><th>Host</th><th>Rule</th><th>Level</th></tr>";
+		
+		foreach($finaltrendinfo as $one=>$two){
+			$details=preg_split("/\|\|/", $one);
+		
+			$query="SELECT description as descr, level as lvl
+				FROM signature
+				WHERE signature.rule_id=".$details[1];
+			$result=mysql_query($query, $db_ossec);
+			$row = @mysql_fetch_assoc($result);
+		
+			echo "<tr>
+				<td><a href='./detail.php?rule_id=".$details[1]."&from=".date("Hi dmy", time()-(86400*30))."&source=".$details[0]."'>".number_format($two)."%</a></td>
+				<td>".$details[2]."</td>
+				<td>".$details[0]."</td>
+				<td>".$row['descr']."</a></td>
+				<td>".$row['lvl']."</td>
+				</tr>";
+		}
+		
+		echo "</table>";
+	}else{
+		echo "<div class='clr' style='padding-bottom:0px'></div>";
+		
+		echo "<table>";
+		echo "<tr><th>Percent</th><th>Count</th><th>Host</th><th>Rule</th><th>Level</th></tr></table>";
+
 	}
 	
-	echo "</table>";
 
 }
 
