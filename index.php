@@ -92,10 +92,6 @@ if(isset($_GET['field']) && $_GET['field']=='path'){
 <title>AnaLogi - OSSEC WUI</title>
 
 
-<?php
-include "page_refresh.php";
-?>
-
 <link href="./style.css" rel="stylesheet" type="text/css" />
 <script src="./scripts/amcharts/amcharts.js" type="text/javascript"></script>
 <script src="./scripts/amcharts/serial.js" type="text/javascript"></script>

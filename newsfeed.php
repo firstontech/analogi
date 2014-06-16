@@ -13,9 +13,6 @@ require './top.php';
 <head>
 <title>AnaLogi - OSSEC WUI</title>
 
-<?php
-include "page_refresh.php";
-?>
 <link href="./style.css" rel="stylesheet" type="text/css" />
 
 </head>
