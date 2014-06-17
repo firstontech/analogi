@@ -357,13 +357,13 @@ for ($i = 0; $i < 48; $i++) {
 <div class="top10header">Database Usage - Client vs Level</div>
 <div class="introbody">In the case where there are to many hosts in the database that this graph becomes a hinderance disable <span class='tw'>$glb_management_clientvslevel</span> in config.php</div>
 <div class='clr'></div>
-<?php echo $clientvsleveldebugstring; ?>
+<?php if(isset($clientvsleveldebugstring)) echo $clientvsleveldebugstring; ?>
 <div id="chartdiv" class="fleft" style="width:90%; height:750px"></div>
 
 <div class='clr' style="margin-top:10px;"></div>	
 
 <div class="top10header" >Database Usage - Overtime</div>
-<?php echo $timevolumedebugstring; ?>
+<?php if(isset($timevolumedebugstring)) echo $timevolumedebugstring; ?>
 <div class='clr'></div>
 <div id="chartdiv_timemanagement" class="fleft" style="width:90%; height:450px"></div>
 
