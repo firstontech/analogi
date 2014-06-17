@@ -180,7 +180,7 @@ $graphlines.='
 		graph'.$i.'.title = "'.$keyprepend.$location.'";
 		graph'.$i.'.valueField = "'.$location.'";
 		graph'.$i.'.bullet = "round";
-		graph'.$i.'.hideBulletsCount = 30;
+		graph'.$i.'.hideBulletsCount = 100;
 		graph'.$i.'.balloonText = "'.$keyprepend.$location.' : [[value]]";
 		graph'.$i.'.connect = false;
 		chart.addGraph(graph'.$i.');
