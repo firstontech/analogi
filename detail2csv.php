@@ -35,7 +35,8 @@ if(isset($_GET['levelmax']) && preg_match("/^[0-9]+$/", $_GET['levelmax'])){
 if(isset($_GET['from']) && preg_match("/^[0-9\ ]+$/", $_GET['from'])){
 	$inputfrom=$_GET['from'];
 	$filterfrom=$inputfrom;
-	$f=split(" ",$inputfrom);
+	#$f=split(" ",$inputfrom);
+	$f=explode(" ",$inputfrom);
 	$sqlfrom=mktime(substr($f[0], 0, 2), substr($f[0], 2, 4), 0,substr($f[1], 2, 2),substr($f[1], 0, 2),substr($f[1], 4, 2));
 	$where.="AND alert.timestamp>=".$sqlfrom." ";
 }else{
@@ -50,7 +51,8 @@ if(isset($_GET['from']) && preg_match("/^[0-9\ ]+$/", $_GET['from'])){
 if(isset($_GET['to']) && preg_match("/^[0-9\ ]+$/", $_GET['to'])){
 	$inputto=$_GET['to'];
 	$filterto=$inputto;
-	$t=split(" ",$inputto);
+#	$t=split(" ",$inputto);
+	$t=explode(" ",$inputto);
 	$sqlto=mktime(substr($t[0], 0, 2), substr($t[0], 2, 4), 0,substr($t[1], 2, 2),substr($t[1], 0, 2),substr($t[1], 4, 2));
 	$lastgraphplot=$sqlto;
 	$where.="AND alert.timestamp<=".$sqlto." ";

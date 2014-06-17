@@ -59,10 +59,12 @@ if($glb_debug==1){
 			$mainstring.=" level".$k.":".$v.",";	
 	
 		}
-		$mainstring=eregi_replace(',$', '', $mainstring); 
+		#$mainstring=eregi_replace(',$', '', $mainstring); 
+		$mainstring=preg_replace('/,$/', '', $mainstring); 
 		$mainstring.="}";
 	}
-	$mainstring=eregi_replace(',$', '', $mainstring); 
+	#$mainstring=eregi_replace(',$', '', $mainstring); 
+	$mainstring=preg_replace('/,$/', '', $mainstring); 
 	$mainstring.="
 		];";
 }

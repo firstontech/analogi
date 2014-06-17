@@ -25,18 +25,18 @@ foreach ($glb_notrepresentedwhitelist as $i){
 
 }
 
-function includeme($file){
-
-	include $file;
-
-#	Not working, can't figure out exactly why though
-#	if(!file_exists($file)){
-#		echo "<span style='color:red'>Error: File ".$file." not found!</span>";
-#	}else{
-#		echo "yes";
-#	}
-
-}
+#function includeme($file){
+#
+#	include $file;
+#
+##	Not working, can't figure out exactly why though
+##	if(!file_exists($file)){
+##		echo "<span style='color:red'>Error: File ".$file." not found!</span>";
+##	}else{
+##		echo "yes";
+##	}
+#
+#}
 
 
 function get_content($url){

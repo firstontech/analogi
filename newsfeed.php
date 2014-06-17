@@ -4,7 +4,6 @@
  * This program is free software; Distributed under the terms of the GNU GPL v3.
  */
 require './top.php';
-
 ?>
 
 
@@ -18,7 +17,7 @@ require './top.php';
 </head>
 <body>
 
-<?php includeme("./header.php"); ?>
+<?php include("./header.php"); ?>
 
 		
 <div class='clr'></div>	

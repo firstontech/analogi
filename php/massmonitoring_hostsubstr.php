@@ -73,10 +73,12 @@ if($glb_debug==1){
 			$mainstring3.=" ".$k.":".$v.",";	
 	
 		}
-		$mainstring3=eregi_replace(',$', '', $mainstring3); 
+		#$mainstring3=eregi_replace(',$', '', $mainstring3); 
+		$mainstring3=preg_replace('/,$/', '', $mainstring3); 
 		$mainstring3.="}";
 	}
-	$mainstring3=eregi_replace(',$', '', $mainstring3); 
+	#$mainstring3=eregi_replace(',$', '', $mainstring3); 
+	$mainstring3=preg_replace('/,$/', '', $mainstring3); 
 	$mainstring3.="
 		];";
 	
