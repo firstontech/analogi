@@ -247,8 +247,7 @@ while($row = @mysql_fetch_assoc($result)){
 <script src="./scripts/amcharts/exporting/rgbcolor.js" type="text/javascript"></script>
 <script src="./scripts/amcharts/exporting/canvg.js" type="text/javascript"></script>
 <script src="./scripts/amcharts/exporting/filesaver.js" type="text/javascript"></script>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-
+<script src="./scripts/jquery.min.js" type="text/javascript"></script>
 <script type="text/javascript">
 
 	$(document).ready(function(){
