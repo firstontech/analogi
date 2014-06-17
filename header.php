@@ -33,19 +33,16 @@
 </div>
 
 
-<script src="./scripts/main.js" type="text/javascript"></script>
+<script src="./scripts/jquery.min.js" type="text/javascript"></script>
+<script src="./scripts/jquery.cookie.js" type="text/javascript"></script>
 <script type="text/javascript">
 	var WALLBOARD_MODE_ON=1;
 	var WALLBOARD_MODE_OFF=0;	
 
-	var current_wallboard_mode=readCookie('wallboard_mode');
+	var current_wallboard_mode=$.cookie('wallboard_mode');
 	
-	if(current_wallboard_mode == null){
-		createCookie('wallboard_mode', WALLBOARD_MODE_OFF, 1);
-	}
-
 	function set_wallboard_mode(mode){
-		createCookie('wallboard_mode', mode, 1);
+		$.cookie('wallboard_mode', mode, {expires: 20});
 		location.reload();
 	}
 
@@ -90,7 +87,3 @@
 	}
 	?>	
 </div>
-
-
-
-
