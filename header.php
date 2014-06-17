@@ -58,7 +58,7 @@
 	<br>
 	<?php
 
-	if($_COOKIE['wallboard_mode']=='1'){
+	if(isset($_COOKIE['wallboard_mode']) && $_COOKIE['wallboard_mode']=='1'){
 
 		// If the wallmode is on, display a "Off" button on the screen
 		echo "<span class='tiny fright'>Wallboard Mode [<a href='javascript:set_wallboard_mode(WALLBOARD_MODE_OFF);' title='Turn off the wallboard mode'>On</a>]</span>";
