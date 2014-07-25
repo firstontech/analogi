@@ -11,6 +11,9 @@ Copyright (C) 2012 ECSC Ltd.
 
 Written for inhouse analysis work, released under GPL to give something back.
 
+Available from:
+https://github.com/downloads/ECSC/analogi/
+
 = Notes =
 
 Ossec is used for internal servers, therefore server names are treated as trusted and are not filtered for security with in this project.  For the same reason user input on the details page is not filtered... if you want to inject SQL, go ahead, you are the Sys Admin after all.
@@ -22,7 +25,6 @@ database with currently 1.2million alerts and 10 servers and performs fine.
 
 If the interface gets slow over time you may want to consider your data
 retention period in the database and clean events out from time to time.
-
 
 = Thanks / Links = 
 
@@ -38,7 +40,14 @@ http://www.famfamfam.com/lab/icons/silk/
 Hover text
 http://www.spiceupyourblog.com/2011/05/simple-css-only-tooltip-descriptions.html
 
-Christian Beer 
-For help with bug fixing
+Show Hide Div
+http://www.randomsnippets.com/2011/04/10/how-to-hide-show-or-toggle-your-div-with-jquery/
+
+Christian Beer, Fabien Bourdaire, Matthew Hall, Max Batsurin
+For help with bug fixing and general support
+
+FreeGeoIP.net
+http://freegeoip.net/static/index.html
+(Including maxmind.com and google maps)
 
 And last, but certainly not least, OSSEC/Dan!
