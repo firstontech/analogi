@@ -119,7 +119,7 @@ $glb_detailsql=0;
 # implemented = yes
 # Reference : http://php.net/manual/en/function.date.php
 #$glb_detailtimestamp="H:i, jS m/Y";
-$glb_detailtimestamp="Y/m/d g:i:s";
+$glb_detailtimestamp="Y/m/d g:i:s A";
 #$glb_detailtimestamp="H:i, jS m/Y";
 
 # Highlighted words
