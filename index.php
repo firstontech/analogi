@@ -94,6 +94,7 @@ if(isset($_GET['field']) && $_GET['field']=='path'){
 
 <link href="./style.css" rel="stylesheet" type="text/css" />
 <script src="./scripts/amcharts/amcharts.js" type="text/javascript"></script>
+<script src="./scripts/amcharts/pie.js" type="text/javascript"></script>
 <script src="./scripts/amcharts/serial.js" type="text/javascript"></script>
 <script src="./scripts/amcharts/exporting/amexport.js" type="text/javascript"></script>
 <script src="./scripts/amcharts/exporting/rgbcolor.js" type="text/javascript"></script>
