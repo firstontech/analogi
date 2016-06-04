@@ -13,13 +13,10 @@ require './top.php';
 <head>
 <title>AnaLogi - OSSEC WUI</title>
 
+<?php include 'page_refresh.php'; ?>
+
 <link href="./style.css" rel="stylesheet" type="text/css" />
-<script src="./scripts/amcharts/amcharts.js" type="text/javascript"></script>
-<script src="./scripts/amcharts/serial.js" type="text/javascript"></script>
-<script src="./scripts/amcharts/exporting/amexport.js" type="text/javascript"></script>
-<script src="./scripts/amcharts/exporting/rgbcolor.js" type="text/javascript"></script>
-<script src="./scripts/amcharts/exporting/canvg.js" type="text/javascript"></script>
-<script src="./scripts/amcharts/exporting/filesaver.js" type="text/javascript"></script>
+<script src="./amcharts/amcharts.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 
@@ -55,48 +52,6 @@ require './top.php';
 		valueAxis.logarithmic = <?php echo $glb_indexgraphlogarithmic;  ?> ;
                 chart.addValueAxis(valueAxis);
 
-		// Add export chart as an image
-		chart.exportConfig = {
-		    menuTop: '0px',
-		    menuLeft: 'auto',
-		    menuRight: '20px',
-		    menuBottom: 'auto',
-		    menuItems: [{
-			textAlign: 'center',
-			onclick: function () {},
-			icon: './scripts/amcharts/images/export.png',
-			iconTitle: 'Save chart as an image',
-			items: [{
-			    title: 'JPG',
-			    format: 'jpg'
-			}, {
-			    title: 'PNG',
-			    format: 'png'
-			}, {
-			    title: 'SVG',
-			    format: 'svg'
-			}]
-		    }],
-		    menuItemOutput:{
-			fileName:"mass_monitoring-graph"
-		    },
-		    menuItemStyle: {
-			backgroundColor: 'transparent',
-			rollOverBackgroundColor: '#EFEFEF',
-			color: '#000000',
-			rollOverColor: '#CC0000',
-			paddingTop: '6px',
-			paddingRight: '6px',
-			paddingBottom: '6px',
-			paddingLeft: '6px',
-			marginTop: '0px',
-			marginRight: '0px',
-			marginBottom: '0px',
-			marginLeft: '0px',
-			textAlign: 'left',
-			textDecoration: 'none'
-		    }
-		}
 
                 // GRAPH
 		<?php echo $graphstring; ?>
@@ -203,7 +158,7 @@ require './top.php';
 
 <div style="width:66%" class='fleft'>	
 	<div class='top10header'>Groups Activity Over Time (<span class='tw'><?php echo $glb_mass_days ?></span> days)</div>
-	<span style='font-size:9px;'> * For interesting curves, I recommend going back to index.php and specifically searching for that group </span>
+	<span style='font-size:9px;'>* For interesting curves I recommend go back to index.php and search for that group specificily </span>
 	<?php echo $grouptimedebugstring; ?>
 	<div id="chartDiv" class="fleft" style="height:800px; width:100%"></div>
 </div>

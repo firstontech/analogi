@@ -4,6 +4,7 @@
  * This program is free software; Distributed under the terms of the GNU GPL v3.
  */
 require './top.php';
+
 ?>
 
 
@@ -12,12 +13,15 @@ require './top.php';
 <head>
 <title>AnaLogi - OSSEC WUI</title>
 
+<?php
+include "page_refresh.php";
+?>
 <link href="./style.css" rel="stylesheet" type="text/css" />
 
 </head>
 <body>
 
-<?php include("./header.php"); ?>
+<?php includeme("./header.php"); ?>
 
 		
 <div class='clr'></div>	

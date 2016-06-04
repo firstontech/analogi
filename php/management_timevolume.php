@@ -19,7 +19,7 @@ if($glb_debug==1){
 
 
 }else{
-	if(!$result=mysql_query($query, $db_ossec)){
+	if(!$result=mysqli_query($query, $db_ossec)){
 	        echo "SQL Error:".$query;
 	}
 
@@ -29,7 +29,7 @@ if($glb_debug==1){
 	$i=0;
 	$alerttotal=0;
 	$sizetotal=0;
-	while($row = @mysql_fetch_assoc($result)){
+	while($row = @mysqli_fetch_assoc($result)){
 	
 	        if($i>0){
 	                $mainstring.=",";

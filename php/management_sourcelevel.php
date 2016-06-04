@@ -22,14 +22,14 @@ if($glb_debug==1){
 	$clientvsleveldebugstring.=$query;
 
 }else{
-	if(!$result=mysql_query($query, $db_ossec)){
+	if(!$result=mysqli_query($query, $db_ossec)){
 		echo "SQL Error:".$query;
 	}
 
 	$whilelocation="";
 	$mainstring="";
 
-	while($row = @mysql_fetch_assoc($result)){
+	while($row = @mysqli_fetch_assoc($result)){
 		$sourcelevel[$row['res_name']][$row['res_level']] = $row['res_cnt'];
 	}
 
@@ -59,12 +59,10 @@ if($glb_debug==1){
 			$mainstring.=" level".$k.":".$v.",";	
 	
 		}
-		#$mainstring=eregi_replace(',$', '', $mainstring); 
-		$mainstring=preg_replace('/,$/', '', $mainstring); 
+		$mainstring=eregi_replace(',$', '', $mainstring); 
 		$mainstring.="}";
 	}
-	#$mainstring=eregi_replace(',$', '', $mainstring); 
-	$mainstring=preg_replace('/,$/', '', $mainstring); 
+	$mainstring=eregi_replace(',$', '', $mainstring); 
 	$mainstring.="
 		];";
 }

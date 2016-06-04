@@ -14,9 +14,9 @@ if(isset($_GET['level']) && preg_match("/^[0-9]+$/", $_GET['level'])){
 	$inputlevel=$glb_level;
 }
 $query="SELECT distinct(level) FROM signature ORDER BY level";
-$result=mysql_query($query, $db_ossec);
+$result=mysqli_query($db_ossec,$query);
 $filterlevel="";
-while($row = @mysql_fetch_assoc($result)){
+while($row = mysqli_fetch_assoc($result)){
 	$selected="";
 	if($row['level']==$inputlevel){
 		$selected=" SELECTED";
@@ -43,9 +43,9 @@ if(isset($_GET['category']) && preg_match("/^[0-9]+$/", $_GET['category'])){
 $query="SELECT *
 	FROM category
 	ORDER BY cat_name";
-$result=mysql_query($query, $db_ossec);
+$result=mysqli_query($db_ossec, $query);
 $filtercategory="";
-while($row = @mysql_fetch_assoc($result)){
+while($row = mysqli_fetch_assoc($result)){
 	$selected="";
         if($row['cat_id']==$inputcategory){
                 $selected=" SELECTED";
@@ -92,14 +92,13 @@ if(isset($_GET['field']) && $_GET['field']=='path'){
 <title>AnaLogi - OSSEC WUI</title>
 
 
+<?php
+include "page_refresh.php";
+?>
+
 <link href="./style.css" rel="stylesheet" type="text/css" />
-<script src="./scripts/amcharts/amcharts.js" type="text/javascript"></script>
-<script src="./scripts/amcharts/pie.js" type="text/javascript"></script>
-<script src="./scripts/amcharts/serial.js" type="text/javascript"></script>
-<script src="./scripts/amcharts/exporting/amexport.js" type="text/javascript"></script>
-<script src="./scripts/amcharts/exporting/rgbcolor.js" type="text/javascript"></script>
-<script src="./scripts/amcharts/exporting/canvg.js" type="text/javascript"></script>
-<script src="./scripts/amcharts/exporting/filesaver.js" type="text/javascript"></script>
+<script src="./amcharts/amcharts.js" type="text/javascript"></script>
+
 <script type="text/javascript">
 
 	function databasetest(){
@@ -122,57 +121,14 @@ if(isset($_GET['field']) && $_GET['field']=='path'){
 		chart = new AmCharts.AmSerialChart();
 		chart.dataProvider = chartData;
 		chart.categoryField = "date";
-		chart.startDuration = 0.2;
+		chart.startDuration = 0.5;
 		chart.balloon.color = "#000000";
 		chart.zoomOutOnDataUpdate=true;
-		chart.pathToImages = "./scripts/amcharts/images/";
+		chart.pathToImages = "./images/";
 		chart.zoomOutButton = {
 			backgroundColor: '#000000',
 			backgroundAlpha: 0.15
 		};
-
-		// Add export chart as an image
-		chart.exportConfig = {
-		    menuTop: '30px',
-		    menuLeft: 'auto',
-		    menuRight: '20px',
-		    menuBottom: 'auto',
-		    menuItems: [{
-			textAlign: 'center',
-			onclick: function () {},
-			icon: './scripts/amcharts/images/export.png',
-			iconTitle: 'Save chart as an image',
-			items: [{
-			    title: 'JPG',
-			    format: 'jpg'
-			}, {
-			    title: 'PNG',
-			    format: 'png'
-			}, {
-			    title: 'SVG',
-			    format: 'svg'
-			}]
-		    }],
-		    menuItemOutput:{
-			fileName:"index-graph"
-		    },
-		    menuItemStyle: {
-			backgroundColor: 'transparent',
-			rollOverBackgroundColor: '#EFEFEF',
-			color: '#000000',
-			rollOverColor: '#CC0000',
-			paddingTop: '6px',
-			paddingRight: '6px',
-			paddingBottom: '6px',
-			paddingLeft: '6px',
-			marginTop: '0px',
-			marginRight: '0px',
-			marginBottom: '0px',
-			marginLeft: '0px',
-			textAlign: 'left',
-			textDecoration: 'none'
-		    }
-		}
 
 		// listen for "dataUpdated" event (fired when chart is rendered) and call zoomChart method when it happens
 		chart.addListener("dataUpdated", zoomChart);
@@ -208,7 +164,7 @@ if(isset($_GET['field']) && $_GET['field']=='path'){
 		// SCROLLBAR
 		var chartScrollbar = new AmCharts.ChartScrollbar();
 		chartScrollbar.graph = graph0;
-		//chartScrollbar.scrollbarHeight = 40;
+		chartScrollbar.scrollbarHeight = 40;
 		chartScrollbar.color = "#000000";
 		chartScrollbar.gridColor = "#000000";
 		chartScrollbar.backgroundColor = "#FFFFFF";

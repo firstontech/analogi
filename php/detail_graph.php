@@ -82,7 +82,7 @@ if(isset($_GET['breakdown']) && $_GET['breakdown']=='level'){
 }
 
 
-$resultchart=mysql_query($querychart, $db_ossec);
+$resultchart=mysqli_query($db_ossec, $querychart);
 
 $tmpdate="";
 $timegrouping=array();
@@ -94,7 +94,7 @@ echo "var chartData = [
 
 $anydata=0;
 
-while($rowchart = @mysql_fetch_assoc($resultchart)){
+while($rowchart = @mysqli_fetch_assoc($resultchart)){
 	# XXX Compile a list of all hosts, maybe a better way to do this than have an array the size of the alert table
 	$locationname=preg_replace($glb_hostnamereplace,"",$rowchart['res_value']);
 	array_push($arraylocations, $locationname);
@@ -180,7 +180,7 @@ $graphlines.='
 		graph'.$i.'.title = "'.$keyprepend.$location.'";
 		graph'.$i.'.valueField = "'.$location.'";
 		graph'.$i.'.bullet = "round";
-		graph'.$i.'.hideBulletsCount = 100;
+		graph'.$i.'.hideBulletsCount = 30;
 		graph'.$i.'.balloonText = "'.$keyprepend.$location.' : [[value]]";
 		graph'.$i.'.connect = false;
 		chart.addGraph(graph'.$i.');

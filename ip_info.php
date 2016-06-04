@@ -31,19 +31,10 @@ if($jsonlng==""){
 # Get AS and CIDR
 $url="http://www.dshield.org/api/ip/".$ip;
 $content=get_content($url);
-
-
-$ip_isp = "Unknown";
-$ip_range = "Unknown";
-$ip_attacks = "Unknown";
-
-if ( ! preg_match  ( '/ccedil/' , $content) ) {
 $xml = simplexml_load_string($content); 
-
 $ip_isp = $xml->asname;
 $ip_range = $xml->network;
 $ip_attacks = $xml->attacks;
-}
 
 
 #First Instance
@@ -52,8 +43,8 @@ $query="SELECT alert.timestamp as first
 	WHERE alert.src_ip='".ip2long($ip)."'
 	ORDER BY alert.timestamp
 	LIMIT 1";
-$result=mysql_query($query, $db_ossec);
-$row = @mysql_fetch_assoc($result);
+$result=mysqli_query($query, $db_ossec);
+$row = @mysqli_fetch_assoc($result);
 $firstinstance = $row['first'];
 	
 
@@ -68,9 +59,9 @@ if($glb_debug==1){
 	$seenat.=$query;
 	
 }else{
-	$result=mysql_query($query, $db_ossec);
+	$result=mysqli_query($query, $db_ossec);
 	$seenat="";
-	while($row = @mysql_fetch_assoc($result)){
+	while($row = @mysqli_fetch_assoc($result)){
 		$seenat.="<a href='detail.php?datamatch=".$ip."&source=".$row['loc_name']."&level=7'>".$row['loc_name']."</a>, ";
 	}
 }
@@ -87,10 +78,13 @@ if($glb_debug==1){
 <head>
 <title>AnaLogi - OSSEC WUI</title>
 
+<?php
+include "page_refresh.php";
+?>
+
 <link href="./style.css" rel="stylesheet" type="text/css" />
-<script src="./scripts/amcharts/amcharts.js" type="text/javascript"></script>
-<script src="./scripts/amcharts/serial.js" type="text/javascript"></script>
--
+<script src="./amcharts/amcharts.js" type="text/javascript"></script>
+
     <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
     <script>
       var map;

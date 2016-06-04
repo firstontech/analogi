@@ -30,10 +30,10 @@ if(isset($_GET['levelmax']) && preg_match("/^[0-9]+$/", $_GET['levelmax'])){
 	$where.="";
 }
 $query="SELECT distinct(level) FROM signature ORDER BY level";
-$result=mysql_query($query, $db_ossec);
+$result=mysqli_query($db_ossec, $query);
 $filterlevelmin="";
 $filterlevelmax="";
-while($row = @mysql_fetch_assoc($result)){
+while($row = @mysqli_fetch_assoc($result)){
 	$selectedmin="";
 	$selectedmax="";
 	if($row['level']==$inputlevelmin){
@@ -51,7 +51,6 @@ while($row = @mysql_fetch_assoc($result)){
 if(isset($_GET['from']) && preg_match("/^[0-9\ ]+$/", $_GET['from'])){
 	$inputfrom=$_GET['from'];
 	$filterfrom=$inputfrom;
-	#$f=split(" ",$inputfrom);
 	$f=explode(" ",$inputfrom);
 	$sqlfrom=mktime(substr($f[0], 0, 2), substr($f[0], 2, 4), 0,substr($f[1], 2, 2),substr($f[1], 0, 2),substr($f[1], 4, 2));
 	$where.="AND alert.timestamp>=".$sqlfrom." ";
@@ -66,8 +65,7 @@ if(isset($_GET['from']) && preg_match("/^[0-9\ ]+$/", $_GET['from'])){
 if(isset($_GET['to']) && preg_match("/^[0-9\ ]+$/", $_GET['to'])){
 	$inputto=$_GET['to'];
 	$filterto=$inputto;
-	#$t=split(" ",$inputto);
-	$t=explode(" ",$inputto);
+	$t=split(" ",$inputto);
 	$sqlto=mktime(substr($t[0], 0, 2), substr($t[0], 2, 4), 0,substr($t[1], 2, 2),substr($t[1], 0, 2),substr($t[1], 4, 2));
 	$lastgraphplot=$sqlto;
 	$where.="AND alert.timestamp<=".$sqlto." ";
@@ -88,9 +86,9 @@ if(isset($_GET['source']) && strlen($_GET['source'])>0){
 	$where.="";
 }
 $query="SELECT distinct(substring_index(substring_index(name, ' ', 1), '->', 1)) as dname FROM location ORDER BY dname";
-$result=mysql_query($query, $db_ossec);
+$result=mysqli_query($db_ossec, $query);
 $filtersource="";
-while($row = @mysql_fetch_assoc($result)){
+while($row = @mysqli_fetch_assoc($result)){
 	$selected="";
 	if($row['dname']==$inputsource){
 		$selected=" SELECTED";
@@ -107,9 +105,9 @@ if(isset($_GET['path']) && strlen($_GET['path'])>0){
 	$where.="";
 }
 $query="SELECT distinct(substring_index(name,'->',-1)) as dname FROM location ORDER BY dname;";
-$result=mysql_query($query, $db_ossec);
+$result=mysqli_query($db_ossec, $query);
 $filterpath="";
-while($row = @mysql_fetch_assoc($result)){
+while($row = @mysqli_fetch_assoc($result)){
 	$selected="";
 	if($row['dname']==$inputpath){
 		$selected=" SELECTED";
@@ -133,8 +131,8 @@ if(isset($_GET['rule_id']) && preg_match("/^[0-9,\ ]+$/", $_GET['rule_id'])){
 		}
 
 		$query="select signature.description from signature where rule_id=".$value;
-		$result=mysql_query($query, $db_ossec);
-		$row = @mysql_fetch_assoc($result);
+		$result=mysqli_query($db_ossec, $query);
+		$row = @mysqli_fetch_assoc($result);
 		$noterule_id.="<span style='font-weight:bold;' >Rule ".$value."</span>: ".$row['description']."<br/>";
 	}
 	$where.=")";
@@ -219,9 +217,9 @@ if(isset($_GET['category']) && preg_match("/^[0-9]+$/", $_GET['category'])){
 $query="SELECT *
 	FROM category
 	ORDER BY cat_name";
-$result=mysql_query($query, $db_ossec);
+$result=mysqli_query($db_ossec, $query);
 $filtercategory="";
-while($row = @mysql_fetch_assoc($result)){
+while($row = @mysqli_fetch_assoc($result)){
 	$selected="";
         if($row['cat_id']==$inputcategory){
                 $selected=" SELECTED";
@@ -239,15 +237,15 @@ while($row = @mysql_fetch_assoc($result)){
 <head>
 
 
+<?php
+include "page_refresh.php";
+?>
+
 <link href="./style.css" rel="stylesheet" type="text/css" />
-<script src="./scripts/amcharts/amcharts.js" type="text/javascript"></script>
-<script src="./scripts/amcharts/serial.js" type="text/javascript"></script>
-<script src="./scripts/sortable.js" type="text/javascript"></script>
-<script src="./scripts/amcharts/exporting/amexport.js" type="text/javascript"></script>
-<script src="./scripts/amcharts/exporting/rgbcolor.js" type="text/javascript"></script>
-<script src="./scripts/amcharts/exporting/canvg.js" type="text/javascript"></script>
-<script src="./scripts/amcharts/exporting/filesaver.js" type="text/javascript"></script>
-<script src="./scripts/jquery.min.js" type="text/javascript"></script>
+<script src="./amcharts/amcharts.js" type="text/javascript"></script>
+<script src="./sortable.js" type="text/javascript"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+
 <script type="text/javascript">
 
 	$(document).ready(function(){
@@ -299,6 +297,7 @@ while($row = @mysql_fetch_assoc($result)){
 
 	function databasetest(){
 		<!--  If no data, alerts will be created in here  -->
+		<?php #includeme('./databasetest.php') ?>
 		<?php include './databasetest.php' ?>
 
 	}
@@ -306,6 +305,7 @@ while($row = @mysql_fetch_assoc($result)){
 	var chart;
 
 
+	<?php #includeme('./php/detail_graph.php'); ?>
 	<?php include './php/detail_graph.php'; ?>
 
 	AmCharts.ready(function () {
@@ -313,58 +313,14 @@ while($row = @mysql_fetch_assoc($result)){
 		chart = new AmCharts.AmSerialChart();
 		chart.dataProvider = chartData;
 		chart.categoryField = "date";
-		chart.startDuration = 0.2;
+		chart.startDuration = 0.5;
 		chart.balloon.color = "#000000";
 		chart.zoomOutOnDataUpdate=true;
-		chart.pathToImages = "./scripts/amcharts/images/";
+		chart.pathToImages = "./images/";
 		chart.zoomOutButton = {
 			backgroundColor: '#000000',
 			backgroundAlpha: 0.15
 		};
-
-		// Add export chart as an image
-		chart.exportConfig = {
-		    menuTop: '30px',
-		    menuLeft: 'auto',
-		    menuRight: '20px',
-		    menuBottom: 'auto',
-		    menuItems: [{
-			textAlign: 'center',
-			onclick: function () {},
-			icon: './scripts/amcharts/images/export.png',
-			iconTitle: 'Save chart as an image',
-			items: [{
-			    title: 'JPG',
-			    format: 'jpg'
-			}, {
-			    title: 'PNG',
-			    format: 'png'
-			}, {
-			    title: 'SVG',
-			    format: 'svg'
-			}]
-		    }],
-		    menuItemOutput:{
-			fileName:"detail-graph"
-		    },
-		    menuItemStyle: {
-			backgroundColor: 'transparent',
-			rollOverBackgroundColor: '#EFEFEF',
-			color: '#000000',
-			rollOverColor: '#CC0000',
-			paddingTop: '6px',
-			paddingRight: '6px',
-			paddingBottom: '6px',
-			paddingLeft: '6px',
-			marginTop: '0px',
-			marginRight: '0px',
-			marginBottom: '0px',
-			marginLeft: '0px',
-			textAlign: 'left',
-			textDecoration: 'none'
-		    }
-		}
-
 
 		// listen for "dataUpdated" event (fired when chart is rendered) and call zoomChart method when it happens
 		chart.addListener("dataUpdated", zoomChart);
@@ -395,7 +351,7 @@ while($row = @mysql_fetch_assoc($result)){
 
 		// SCROLLBAR
 		var chartScrollbar = new AmCharts.ChartScrollbar();
-		//chartScrollbar.scrollbarHeight = 40;
+		chartScrollbar.scrollbarHeight = 40;
 		chartScrollbar.color = "#000000";
 		chartScrollbar.gridColor = "#000000";
 		chartScrollbar.backgroundColor = "#FFFFFF";
@@ -539,8 +495,8 @@ while($row = @mysql_fetch_assoc($result)){
 		and alert.rule_id=signature.rule_id
 		and alert.id=data.id
 		".$where;
-	$resultcounttable=mysql_query($querycounttable, $db_ossec);
-	$rowcounttable = @mysql_fetch_assoc($resultcounttable);
+	$resultcounttable=mysqli_query($db_ossec, $querycounttable);
+	$rowcounttable = @mysqli_fetch_assoc($resultcounttable);
 	$resultablerows=$rowcounttable['res_cnt'];
 	
 	# Fetch the actual rows of data for the table
@@ -554,7 +510,7 @@ while($row = @mysql_fetch_assoc($result)){
 		".$wherecategory_and."
 		ORDER BY alert.timestamp DESC
 		LIMIT ".$inputlimit;		
-	$resulttable=mysql_query($querytable, $db_ossec);
+	$resulttable=mysqli_query($db_ossec, $querytable);
 
 	$mainstring.= "<div class='newboxes toggled'><table class='dump sortable' id='sortabletable'  style='width:100%' ><tr>
 		<th>ID</th><th>Rule</th><th>Lvl</th><th>Timestamp</th><th>Location</th><th>IP</th><th>Data</th>
@@ -574,7 +530,7 @@ while($row = @mysql_fetch_assoc($result)){
 	$datasummary = array();
 	
 
-	while($rowtable = @mysql_fetch_assoc($resulttable)){
+	while($rowtable = @mysqli_fetch_assoc($resulttable)){
 
 		# Dump each line to the table, be careful, this data is fromt the logs and should not be trusted
 		if(isset($_GET['datamatch']) && strlen($_GET['datamatch'])>0){
@@ -609,6 +565,7 @@ while($row = @mysql_fetch_assoc($result)){
 		$mainstring.= "</tr>";
 
 		$phraseline=preg_split("/ /", $rowtable['data']);
+		//print_r($phraseline);
 		foreach($phraseline as $phrase){
 			$phrase2=preg_replace("/=[a-zA-Z0-9\%\,\~\_\.\-]+&/", "=&", $phrase);
 			# I have this hard coded as I think it will run faster than a glb_config array foreach loop
@@ -618,9 +575,7 @@ while($row = @mysql_fetch_assoc($result)){
 			|| preg_match("/\w+\.\w+\.\w+/", $phrase2) # match... file paths?
 			|| preg_match("/^[A-Z_]+\/[0-9]+$/", $phrase2) # match HTTP return codes and proxy cache peer
 			){
-				if ( ! isset ($datasummary[$phrase2]) ) {
-					$datasummary[$phrase2] = 1 ;
-				}
+			//	print_r($datasummary);
 				$datasummary[$phrase2]++;
 			}	
 		}
@@ -655,7 +610,7 @@ while($row = @mysql_fetch_assoc($result)){
 	if($rowcount==0){
 		echo "<tr><td><span style='color:red'>No data found, is your database populated?</span>.</td><td></td><td></td><td></td><td></td><td></td></tr>";
 	}elseif($rowcount==$glb_detailtablelimit){
-		echo "<tr><td colspan='6'><span style='color:red'>Search limited</span> to latest <span class='tw'>".number_format($rowcount)."</span> (of ".number_format($resultablerows).") results as per your global config. Please refine your search on increase the limit.</td></tr>";
+		echo "<tr><td colspan='6'><span style='color:red'>Search limited</span> to latest <span class='tw'>".number_format($rowcount)."</span> (of ".number_format($resultablerows).") results as per your global config. Please refine your search or increase the limit.</td></tr>";
 	}else{
 		echo "<tr><td colspan='6'>".number_format($rowcount)." records shown.</td></tr>";
 	}

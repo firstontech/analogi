@@ -50,13 +50,13 @@ if(isset($_GET['action']) && $_GET['action']=='delete' && preg_match("/\/managem
 			LEFT JOIN signature ON alert.rule_id=signature.rule_id
 			LEFT JOIN location ON alert.location_id=location.id
 			WHERE ".$where;
-		$resultdelete=mysql_query($querydelete, $db_ossec);
+		$resultdelete=mysqli_query($db_ossec, $querydelete);
 		if($resultdelete==1){
 			# MySQL version of vaccum... this actually removes the data
 			$query="OPTIMIZE TABLE alert;";
-			mysql_query($query, $db_ossec);
+			mysqli_query($db_ossec, $query);
 			$query="OPTIMIZE TABLE data;";
-			mysql_query($query, $db_ossec);
+			mysqli_query($db_ossec, $query);
 		}
 	
 		if($glb_detailsql==1){
@@ -78,7 +78,7 @@ if(isset($_GET['action']) && $_GET['action']=='removelocation' && isset($_GET['s
 		LEFT JOIN signature ON alert.rule_id=signature.rule_id
 		LEFT JOIN location ON alert.location_id=location.id
 		WHERE location.name like \"".$_GET['source']."%\"";
-	$resultdelete=mysql_query($querydelete, $db_ossec);
+	$resultdelete=mysqli_query($db_ossec, $querydelete);
 	if($glb_detailsql==1){
 		#For niceness show the SQL queries, just incase you want to dig deeper your self
 		echo "<div class='fleft top10header'>SQL (".$resultdelete.")</div>
@@ -87,14 +87,14 @@ if(isset($_GET['action']) && $_GET['action']=='removelocation' && isset($_GET['s
 	}
 	# MySQL version of vaccum... this actually removes the data
 	$query="OPTIMIZE TABLE alert;";
-	mysql_query($query, $db_ossec);
+	mysqli_query($db_ossec, $query);
 	$query="OPTIMIZE TABLE data;";
-	mysql_query($query, $db_ossec);
+	mysqli_query($db_ossec, $query);
 
 	# Delete location
 	$querydelete="DELETE FROM location
 		WHERE location.name like \"".$_GET['source']."%\"";	
-	$resultdelete=mysql_query($querydelete, $db_ossec);
+	$resultdelete=mysqli_query($querydelete, $db_ossec);
 	if($glb_detailsql==1){
 		#For niceness show the SQL queries, just incase you want to dig deeper your self
 		echo "<div class='fleft top10header'>SQL (".$resultdelete.")</div>
@@ -113,33 +113,33 @@ $query="SELECT alert.timestamp as age
 	FROM alert
 	ORDER BY timestamp
 	LIMIT 1";
-$result=mysql_query($query, $db_ossec);
-$row = @mysql_fetch_assoc($result);
+$result=mysqli_query($db_ossec, $query);
+$row = @mysqli_fetch_assoc($result);
 $oldestalert=$row['age'];
 
 
 
 # Get all clients for dropdown
 $query="SELECT distinct(substring_index(substring_index(name, ' ', 1), '->', 1)) as dname FROM location ORDER BY dname";
-$result=mysql_query($query, $db_ossec);
+$result=mysqli_query($db_ossec, $query);
 $filtersource="";
-while($row = @mysql_fetch_assoc($result)){
+while($row = @mysqli_fetch_assoc($result)){
 	$filtersource.="<option value='".$row['dname']."'>".$row['dname']."</option>";
 }
 
 # Get paths for dropdown
 $query="SELECT distinct(substring_index(name,'->',-1)) as dname FROM location ORDER BY dname;";
-$result=mysql_query($query, $db_ossec);
+$result=mysqli_query($db_ossec, $query);
 $filterpath="";
-while($row = @mysql_fetch_assoc($result)){
+while($row = @mysqli_fetch_assoc($result)){
 	$filterpath.="<option value='".$row['dname']."'>".$row['dname']."</option>";
 }
 
 # Get all levels for dropdowns
 $query="SELECT distinct(level) FROM signature ORDER BY level";
-$result=mysql_query($query, $db_ossec);
+$result=mysqli_query($db_ossec, $query);
 $filterlevel="";
-while($row = @mysql_fetch_assoc($result)){
+while($row = @mysqli_fetch_assoc($result)){
 	$filterlevel.="<option value='".$row['level']."'>".$row['level']."</option>";
 }
 
@@ -157,9 +157,12 @@ for ($i = 0; $i < 48; $i++) {
 <head>
 <title>AnaLogi - OSSEC WUI</title>
 
+<?php
+include "page_refresh.php";
+?>
+
 <link href="./style.css" rel="stylesheet" type="text/css" />
-<script src="./scripts/amcharts/amcharts.js" type="text/javascript"></script>
-<script src="./scripts/amcharts/serial.js" type="text/javascript"></script>
+<script src="./amcharts/amcharts.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 
@@ -199,7 +202,7 @@ for ($i = 0; $i < 48; $i++) {
 		chart.categoryField = "source";
 		chart.plotAreaBorderAlpha = 0.2;
 		chart.rotate = true;
-
+		
 		// AXES
 		// Category
 		var categoryAxis = chart.categoryAxis;
@@ -236,7 +239,6 @@ for ($i = 0; $i < 48; $i++) {
 		chart_timemanagement = new AmCharts.AmSerialChart();
 		chart_timemanagement.dataProvider = chartData_timemanagement;
 		chart_timemanagement.categoryField = "date";
-		chart_timemanagement.pathToImages = "./scripts/amcharts/images/";
 
 		// AXES
 		// category
@@ -310,12 +312,12 @@ for ($i = 0; $i < 48; $i++) {
 
 <div class="top10header">Contents</div>
 <div style="padding:10px;">
-	<div class="contents"><a href='./management.php?#intro'>Intro</a></div>
-	<div class="contents"><a href='./management.php?#agents'>Last Agent Alert</a></div>
-	<div class="contents"><a href='./management.php?#ruletweaking'>Rule Tweaking</a></div>
-	<div class="contents"><a href='./management.php?#databasesummary'>Database Size Summary</a></div>
-	<div class="contents"><a href='./management.php?#databasecleanup'>Database cleanup</a></div>
-	<div class="contents"><a href='./management.php?#removelocation'>Remove Location (OSSEC client)</a></div>
+	<div class="contents"><a href='./management.php#intro'>Intro</a></div>
+	<div class="contents"><a href='./management.php#agents'>Last Agent Alert</a></div>
+	<div class="contents"><a href='./management.php#ruletweaking'>Rule Tweaking</a></div>
+	<div class="contents"><a href='./management.php#databasesummary'>Database Size Summary</a></div>
+	<div class="contents"><a href='./management.php#databasecleanup'>Database cleanup</a></div>
+	<div class="contents"><a href='./management.php#removelocation'>Remove Location (OSSEC client)</a></div>
 </div>
 
 <a name="intro"></a> 
@@ -357,13 +359,13 @@ for ($i = 0; $i < 48; $i++) {
 <div class="top10header">Database Usage - Client vs Level</div>
 <div class="introbody">In the case where there are to many hosts in the database that this graph becomes a hinderance disable <span class='tw'>$glb_management_clientvslevel</span> in config.php</div>
 <div class='clr'></div>
-<?php if(isset($clientvsleveldebugstring)) echo $clientvsleveldebugstring; ?>
+<?php echo $clientvsleveldebugstring; ?>
 <div id="chartdiv" class="fleft" style="width:90%; height:750px"></div>
 
 <div class='clr' style="margin-top:10px;"></div>	
 
 <div class="top10header" >Database Usage - Overtime</div>
-<?php if(isset($timevolumedebugstring)) echo $timevolumedebugstring; ?>
+<?php echo $timevolumedebugstring; ?>
 <div class='clr'></div>
 <div id="chartdiv_timemanagement" class="fleft" style="width:90%; height:450px"></div>
 

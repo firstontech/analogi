@@ -15,14 +15,14 @@ $query="SELECT count(alert.id) as res_cnt, SUBSTRING_INDEX(SUBSTRING_INDEX(locat
         LIMIT 10;";
 
 
-if(!$result=mysql_query($query, $db_ossec)){
+if(!$result=mysqli_query($query, $db_ossec)){
 	echo "SQL Error:".$query;
 }
 
 echo "var chartData = [{";
 
 $mainstring="";
-while($row = @mysql_fetch_assoc($result)){
+while($row = @mysqli_fetch_assoc($result)){
 	$mainstring.="
 		location: \"".preg_replace($glb_hostnamereplace,"",$row['res_name'])."\", value: ".$row['res_cnt']."
 	}, {
